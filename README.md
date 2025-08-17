@@ -1,70 +1,44 @@
-#  K-pop YouTube Sentiment Analysis
+# 🎵 K-pop YouTube Sentiment Analysis (Cross-Cultural)
 
-Cross-cultural sentiment analysis of K-pop YouTube comments using AI and traditional NLP methods to understand global fan engagement patterns.
+Data-driven analysis of K-pop YouTube comments to uncover **fan emotions, fan-type segments, and cross-market patterns**. 
+The pipeline is **fully local** and uses **Hugging Face models + rule-based lexicons + clustering** — no OpenAI API required.
 
-##  Key Findings
+**Dashboards (exported as HTML):**
+- `[BLACKPINK Dashboard](https://ryuiiii-f.github.io/kpop-youtube-sentiment-analysis/results/hylt/blackpink_dashboard.html)
+` — BLACKPINK “How You Like That” (HYLT): sentiment & fan-type overview
+- `[Ditto Dashboard](https://ryuiiii-f.github.io/kpop-youtube-sentiment-analysis/results/ditto/ditto_dashboard.html)` — NewJeans “Ditto”: multilingual sentiment landscape
 
-**NewJeans "Ditto" dominates engagement depth:**
-- **905 comments analyzed** across 5 languages  
-- **20.6% MV analysis** comments (vs typical 5-10% for K-pop)
-- **Cross-cultural insight**: Korean fans 90% analytical, Global fans 43% emotional
 
-**BLACKPINK "How You Like That":**
-- **English-dominated** global fanbase analysis
-- **Traditional NLP + rule-based sentiment classification**
+## 🎯 Project Goals
+- Build a lightweight pipeline to **collect → clean → label → segment → visualize** YouTube comments.
+- Quantify **emotion** and infer **fan-preference segments** from free-form text (EN/JA/KR supported).
+- Contrast cross-market patterns for different artists/songs with reproducible, API-free steps.
 
-## 📊 Project Comparison
+---
 
-| Project | Comments | Languages | Deep Analysis | Unique Finding |
-|---------|----------|-----------|---------------|----------------|
-| **Ditto** | 905 | 5 | 20.6% | 1.8% "melancholy-positive" emotion |
-| **HYLT** | ~500 | 3 | 15% | English-dominated global response |
+## 🔍 Methods & Taxonomy
 
-## 🔧 Tech Stack
+### Pipeline (5 phases)
+1) **Collection** — YouTube Data API (comment text, likes, timestamp, video id)  
+2) **Preprocessing** — multilingual cleaning, deduplication, short-text filtering  
+3) **Labeling & Topic Signals** — model-based + rule-based  
+   - **Sentiment (HF)**: transformer-based multilingual sentiment → mapped to a **9-class emotion set**  
+     (*touching, cool, cute, relatable, addictive, critical, inspiring, nostalgic, neutral*)  
+   - **Lexicons (rules)**: fandom/visual/music/dance/lyrics/personality cue words to enrich signals  
+   - **Clustering (unsupervised)**: TF‑IDF/embeddings → K‑means (or hierarchical) → centroid keywords → 
+     post-hoc mapping to **fan-type segments**  
+     (*visual-lover, music-lover, dance-lover, lyrics-lover, personality-lover, mixed/unclear*)
+4) **Discovery** — keyword co‑occurrence, correlation, clustering structure (PCA/t‑SNE/UMAP)  
+5) **Visualization** — interactive dashboards (HTML) for exploration & presentation
 
-| Component | Technologies |
-|-----------|-------------|
-| **Data Collection** | YouTube Data API, Custom scrapers |
-| **Text Processing** | Pandas, NLTK, Multi-language preprocessing |
-| **Sentiment Analysis** | VADER, Custom emotion lexicons |
-| **Machine Learning** | Scikit-learn (K-means, PCA, t-SNE) |
-| **Statistical Analysis** | TF-IDF, Correlation analysis |
-| **Visualization** | Plotly, Matplotlib, Wordcloud |
-| **Dashboard** | Interactive HTML/CSS/JavaScript |
+> The taxonomy is configurable. Swap models or lexicons without changing the downstream charts.
 
-## 📊 Visual Analysis
+---
 
-![Ditto Dashboard](images/ditto_dashboard_preview.png)
-*Interactive cross-cultural analysis dashboard with 10+ visualizations*
+## ⚙️ Tech Stack
+- **Collection:** YouTube Data API, custom Python scripts  
+- **Processing:** Python, pandas, regex (language‑agnostic cleaning)  
+- **Labeling:** Hugging Face transformers (sentiment / zero‑shot optional), rule‑based lexicons  
+- **Segmentation:** scikit‑learn (TfidfVectorizer, K‑means/DBSCAN), dimensionality reduction (PCA/UMAP)  
+- **Visualization:** Plotly / Matplotlib / wordcloud; exported as standalone HTML
 
-![Emotion Wordcloud](images/ditto_emotion_wordcloud.png)
-*Multi-language emotion keywords showing "nostalgic," "theory," "masterpiece"*
-
-![Cross-Cultural Comparison](images/ditto_cross_cultural_analysis.png)
-*Korean vs Global fan response patterns and engagement types*
-
-## 📁 Files
-
-- `youtube_comment_collector.py` - YouTube API data collection
-- `hg_emotion_labeller.py` - Traditional sentiment analysis  
-- `ditto_cross_cultural_analysis.py` - Cross-cultural pattern analysis
-- `ditto_dashboard.html` - Interactive analysis dashboard
-- Various processed datasets with sentiment labels
-
-## 🎮 Interactive Dashboards
-
-**NewJeans "Ditto"**: [Cross-Cultural Analysis Dashboard](results/ditto_dashboard.html)
-- 5-language sentiment analysis
-- Fan engagement type breakdowns  
-- Cultural pattern visualization
-
-**BLACKPINK**: Static visualizations with emotion distribution analysis
-
-## 🔍 Methodology
-
-**5-Phase Analysis Pipeline:**
-1. **Baseline**: VADER + Rules (70% accuracy)
-2. **AI**: HuggingFace Transformers (85-90% accuracy)  
-3. **Hybrid**: Rule-based
-4. **Discovery**: Unsupervised pattern identification
-5. **Validation**: Cross-method comparison
