@@ -109,41 +109,64 @@ print(f"Output directory: {output_dir}")
 print("\nGenerating Emotion Distribution...")
 
 emotion_counts = df_main["emotion"].value_counts()
-fig, ax = plt.subplots(figsize=(12, 10), facecolor='black')
+total_n = int(emotion_counts.sum())
 
-explode = [0.08 if i == 0 else 0.03 for i in range(len(emotion_counts))]
+fig, ax = plt.subplots(figsize=(12, 9), facecolor='black')
 
-wedges, texts, autotexts = plt.pie(
-    emotion_counts.values, 
-    labels=emotion_counts.index,
-    autopct='%1.1f%%',
+# 让第一名稍微突出，其余统一微微偏移；并设置“甜甜圈”宽度
+explode = [0.10 if i == 0 else 0.04 for i in range(len(emotion_counts))]
+
+def _autopct(pct):
+    return f'{pct:.1f}%' if pct >= 4 else ''
+
+# DONUT: 使用 wedgeprops width 形成内圈空白
+wedges, texts, autotexts = ax.pie(
+    emotion_counts.values,
+    labels=None,
+    autopct=_autopct,
+    pctdistance=0.72,
     startangle=90,
-    colors=EMOTION_COLORS[:len(emotion_counts)],
+    colors=EMOTION_COLORS[:len(emotion_counts)] if 'EMOTION_COLORS' in globals() else None,
     explode=explode,
     shadow=True,
-    wedgeprops={'edgecolor': 'white', 'linewidth': 2}
+    wedgeprops={'edgecolor': 'white', 'linewidth': 2, 'width': 0.42}
 )
 
-# 调整文字样式和间距
-for text in texts:
+# 中心总数（两行：标题 + 数字）
+ax.text(0, 0.10, 'Total', ha='center', va='center', color='white', fontsize=13, fontweight='bold')
+ax.text(0, -0.12, f'{total_n}', ha='center', va='center', color='white', fontsize=22, fontweight='bold')
+
+# 百分比文字样式
+for t in ax.texts:
+    t.set_color('white')
+    t.set_fontweight('bold')
+    t.set_fontsize(11)
+
+# 右侧图例
+legend = ax.legend(
+    wedges,
+    [str(x) for x in emotion_counts.index],
+    title='Emotion',
+    loc='center left',
+    bbox_to_anchor=(1.02, 0.5),
+    frameon=True
+)
+legend.get_frame().set_facecolor('black')
+legend.get_frame().set_edgecolor('white')
+legend.get_frame().set_alpha(0.6)
+for text in legend.get_texts():
     text.set_color('white')
     text.set_fontweight('bold')
-    text.set_fontsize(11)
 
-for autotext in autotexts:
-    autotext.set_color('white')
-    autotext.set_fontweight('bold')
-    autotext.set_fontsize(10)
+ax.set_title('BLACKPINK Fan Emotion Distribution How You Like That Analysis',
+             fontsize=18, fontweight='bold', color='white', pad=30)
+ax.set_aspect('equal')
 
-plt.title('BLACKPINK Fan Emotion Distribution\nHow You Like That Analysis', 
-          fontsize=18, fontweight='bold', color='white', pad=40)
-plt.axis('equal')
-plt.subplots_adjust(top=0.85)  # 调整顶部间距
 plt.tight_layout()
-plt.savefig(f'{output_dir}/BP_01_emotion_distribution.png', dpi=300, bbox_inches='tight', 
-            facecolor='black', edgecolor='none')
+plt.savefig(f'{output_dir}/BP_01_emotion_distribution_donut.png', dpi=300,
+            bbox_inches='tight', facecolor='black', edgecolor='none')
 plt.show()
-print(f"Saved: {output_dir}/BP_01_emotion_distribution.png")
+print(f"Saved: {output_dir}/BP_01_emotion_distribution_donut.png")
 
 # ============================================
 # 图表 2: Fan Type Distribution
