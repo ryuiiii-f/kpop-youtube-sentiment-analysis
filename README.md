@@ -7,7 +7,7 @@ The pipeline is **fully local** and uses **Hugging Face models + rule-based lexi
 - [BLACKPINK Dashboard](https://ryuiiii-f.github.io/kpop-youtube-sentiment-analysis/results/hylt/blackpink_dashboard.html) — BLACKPINK “How You Like That” (HYLT)
 - [NEWJEANS Dashboard](https://ryuiiii-f.github.io/kpop-youtube-sentiment-analysis/results/ditto/ditto_dashboard.html) — NewJeans “Ditto”
 
-
+---
 
 ## 🎯 Project Goals
 - Build a lightweight pipeline to **collect → clean → label → segment → visualize** YouTube comments.
