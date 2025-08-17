@@ -4,9 +4,9 @@ Data-driven analysis of K-pop YouTube comments to uncover **fan emotions, fan-ty
 The pipeline is **fully local** and uses **Hugging Face models + rule-based lexicons + clustering** — no OpenAI API required.
 
 **Dashboards (exported as HTML):**
-- `[BLACKPINK Dashboard](https://ryuiiii-f.github.io/kpop-youtube-sentiment-analysis/results/hylt/blackpink_dashboard.html)
-` — BLACKPINK “How You Like That” (HYLT): sentiment & fan-type overview
-- `[Ditto Dashboard](https://ryuiiii-f.github.io/kpop-youtube-sentiment-analysis/results/ditto/ditto_dashboard.html)` — NewJeans “Ditto”: multilingual sentiment landscape
+- [BLACKPINK Dashboard](https://ryuiiii-f.github.io/kpop-youtube-sentiment-analysis/results/hylt/blackpink_dashboard.html)
+ — BLACKPINK “How You Like That” (HYLT): sentiment & fan-type overview
+- [Ditto Dashboard](https://ryuiiii-f.github.io/kpop-youtube-sentiment-analysis/results/ditto/ditto_dashboard.html) — NewJeans “Ditto”: multilingual sentiment landscape
 
 
 ## 🎯 Project Goals
